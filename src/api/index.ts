@@ -1,15 +1,17 @@
-import express from "express";
+import express, { Request, Response } from "express";
+
 import MessageResponse from "../interfaces/MessageResponse";
+import projectRouter from "./projects/projectsRoutes";
 
 const router = express.Router();
 
-router.get<{}, MessageResponse>("/", (req, res) => {
+router.get("/", (req: Request, res: Response<MessageResponse>) => {
   res.json({
-    message: "API Route Boyyyy",
+    message: "Main API Route!",
   });
 });
 
 // Import routers here
-// router.use("/projects", projects);
+router.use("/projects", projectRouter);
 
 export default router;

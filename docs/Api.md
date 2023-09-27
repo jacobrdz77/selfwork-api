@@ -17,6 +17,8 @@ POST /projects
   "priority": "Low",
   "iconColor": "BlueGreen",
   "lumpSum": 2800,
+  "startDate": null,
+  "dueDate": null,
   "workspaceId": "0000-0000-0000-0000-0000",
   "ownerId": "0000-0000-0000-0000-0000",
   "clientId": "0000-0000-0000-0000-0000"
