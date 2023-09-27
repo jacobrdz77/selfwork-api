@@ -18,16 +18,16 @@ const Color = z.enum([
 export const ProjectValidator = z.object({
   name: z.string(),
   description: z.string().optional(),
-  lumpSum: z.number().optional(),
-  monthlyPay: z.number().nonnegative().optional(),
+  lumpSum: z.number().nullish(),
+  monthlyPay: z.number().nonnegative().nullish(),
+  priority: z.enum(["None", "Low", "Medium", "High"]),
   workspaceId: z.string(),
   ownerId: z.string(),
-  clientId: z.string().optional(),
-  order: z.number().nonnegative(),
-  priority: z.enum(["None", "Low", "Medium", "High"]),
-  iconColor: Color,
-  startDate: z.date().optional(),
-  dueDate: z.date().optional(),
+  clientId: z.string().nullish(),
+  order: z.number().nonnegative().nullish(),
+  iconColor: Color.nullish(),
+  startDate: z.date().nullish(),
+  dueDate: z.date().nullish(),
 });
 
 export type Project = z.infer<typeof ProjectValidator>;

@@ -153,8 +153,8 @@ model Project {
   startDate   DateTime?
   dueDate     DateTime?
   iconColor   Color     @default(Classic)
-  owner       User?     @relation("Owner", fields: [ownerId], references: [id], onDelete: Cascade)
-  ownerId     String?
+  owner       User     @relation("Owner", fields: [ownerId], references: [id], onDelete: Cascade)
+  ownerId     String
   workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
   workspaceId String
   client      Client?   @relation(fields: [clientId], references: [id])
