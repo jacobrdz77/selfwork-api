@@ -45,16 +45,16 @@ model VerificationToken {
 
 model User {
   id                         String      @id @default(cuid())
-  name                       String?
+  name                       String
   email                      String?     @unique
   emailVerified              DateTime?
   mobilePhone                String?
   image                      String?
+  lastUsingWorkspaceId       String?
   accounts                   Account[]
   sessions                   Session[]
   clients                    Client[]
   assignedTasks              Task[]
-  lastUsingWorkspaceId       String?
   ownedWorkspaces            Workspace[] @relation("Owner")
   involvedWorkspaces         Workspace[]
   ownedProjects              Project[]   @relation("Owner")
@@ -152,6 +152,7 @@ model Project {
   status      ProjectStatus @default(Active)
   startDate   DateTime?
   dueDate     DateTime?
+  order       Int?      @default(autoincrement())
   iconColor   Color     @default(Classic)
   owner       User     @relation("Owner", fields: [ownerId], references: [id], onDelete: Cascade)
   ownerId     String
@@ -161,7 +162,6 @@ model Project {
   clientId    String?
   createdAt   DateTime  @default(now())
   updatedAt   DateTime? @updatedAt
-  order       Int?      @default(autoincrement())
   sections    Section[]
   notes       Note[]
   sketches    Sketch[]
@@ -181,7 +181,7 @@ model Client {
   projects        Project[]
   user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId          String
-  order Int? @default(autoincrement())
+  order           Int?      @default(autoincrement())
   status          Status    @default(Pending)
   totalMonthly    Decimal   @db.Money @default(0)
   totalLumpSum    Decimal   @db.Money @default(0)

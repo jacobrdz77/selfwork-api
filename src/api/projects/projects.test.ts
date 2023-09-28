@@ -28,7 +28,7 @@ describe("Testing for error for POST /api/projects", () => {
         name: "New Project",
       })
       .expect("Content-Type", /json/)
-      .expect(400);
+      .expect(422);
 
     expect(response.body).toEqual({
       message: "Zod Error",

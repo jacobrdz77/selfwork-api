@@ -10,6 +10,13 @@
 POST /projects
 ```
 
+**Parameters**
+
+- name (_required_)
+- priority (_required_),
+- workspaceId (_required_),
+- ownerId (_required_),
+
 ```json
 {
   "name": "Lawfirm Website",
@@ -56,6 +63,9 @@ POST /projects
 ```
 GET /projects/:id
 ```
+
+**Parameters**
+No Parameters
 
 ### Response
 
@@ -116,6 +126,9 @@ GET /projects/:id
 ```
 GET /projects/:id
 ```
+
+**Parameters**
+No Parameters
 
 ### Response
 
@@ -195,6 +208,9 @@ GET /projects/:id
 PUT /projects/:id
 ```
 
+**Parameters**
+No Parameters
+
 ```json
 {
   "name": "Lawfirm Website",
@@ -223,6 +239,9 @@ PUT /projects/:id
 DELETE /projects/:id
 ```
 
+**Parameters**
+No Parameters
+
 ### Response
 
 ```js
@@ -238,6 +257,9 @@ DELETE /projects/:id
 ```
 POST /clients
 ```
+
+**Parameters**
+No Parameters
 
 ```json
 {
@@ -277,6 +299,9 @@ POST /clients
 GET /clients/:id
 ```
 
+**Parameters**
+No Parameters
+
 ### Response
 
 ```js
@@ -306,6 +331,9 @@ GET /clients/:id
 ```
 GET /clients/:id
 ```
+
+**Parameters**
+No Parameters
 
 ### Response
 
@@ -360,6 +388,9 @@ GET /clients/:id
 PUT /clients/:id
 ```
 
+**Parameters**
+No Parameters
+
 ```json
 {
   "name": "Bob Johnson",
@@ -389,6 +420,9 @@ PUT /clients/:id
 DELETE /clients/:id
 ```
 
+**Parameters**
+No Parameters
+
 ### Response
 
 ```js
@@ -404,6 +438,9 @@ DELETE /clients/:id
 ```
 POST /sections
 ```
+
+**Parameters**
+No Parameters
 
 ```json
 {
@@ -435,6 +472,9 @@ POST /sections
 GET /sections/:id
 ```
 
+**Parameters**
+No Parameters
+
 ### Response
 
 ```js
@@ -461,6 +501,9 @@ GET /sections?userId=123456789
 // OR
 GET /sections?projectId=123456789
 ```
+
+**Parameters**
+No Parameters
 
 ### Response
 
@@ -526,6 +569,9 @@ GET /sections?projectId=123456789
 PUT /sections/:id
 ```
 
+**Parameters**
+No Parameters
+
 ```json
 {
   "name": "Untitled Section"
@@ -540,9 +586,14 @@ PUT /sections/:id
 
 ## Delete Section
 
+### Request
+
 ```js
 DELETE /sections/:id
 ```
+
+**Parameters**
+No Parameters
 
 ### Response
 
@@ -559,6 +610,9 @@ DELETE /sections/:id
 ```
 POST /workspaces
 ```
+
+**Parameters**
+No Parameters
 
 ```json
 {
@@ -580,6 +634,9 @@ POST /workspaces
 ```
 GET /workspaces/:id
 ```
+
+**Parameters**
+No Parameters
 
 ### Response
 
@@ -626,6 +683,9 @@ GET /workspaces/:id
 GET /sections?ownerId=123456789
 ```
 
+**Parameters**
+No Parameters
+
 ### Response
 
 ```js
@@ -652,6 +712,9 @@ GET /sections?ownerId=123456789
 PUT /workspaces/:id
 ```
 
+**Parameters**
+No Parameters
+
 ```json
 {
   "name": "Jacob's Workspace",
@@ -667,9 +730,14 @@ PUT /workspaces/:id
 
 ## Delete Workspace
 
+### Request
+
 ```js
 DELETE /workspaces/:id
 ```
+
+**Parameters**
+No Parameters
 
 ### Response
 

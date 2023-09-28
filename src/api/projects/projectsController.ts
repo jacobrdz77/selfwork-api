@@ -1,19 +1,14 @@
 import { NextFunction, Request, Response } from "express";
 import { createProjectService } from "./projectsService";
-import { Project, ProjectValidator } from "./projectsModel";
+import { Project } from "./projectsModel";
 
 async function createProject(
   req: Request<{}, {}, Project>,
   res: Response,
   next: NextFunction
 ) {
-  try {
-    const newProject = ProjectValidator.parse(req.body);
-    const createdProject = await createProjectService(newProject);
-    return res.status(200).json(createdProject);
-  } catch (error) {
-    next(error);
-  }
+  const createdProject = await createProjectService(req.body);
+  return res.status(200).json(createdProject);
 }
 
 async function getAllProjects(req: Request, res: Response) {

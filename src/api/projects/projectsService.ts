@@ -1,4 +1,4 @@
-// Here is where you'll fetch from database using a client like Prisma.
+// Here is where the business logic is
 import prisma from "../../lib/prisma/prismaClient";
 import randomColor from "../../utils/randomColor";
 import { Project } from "./projectsModel";

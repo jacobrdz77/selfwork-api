@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
-
+import { ZodError } from "zod";
 import ErrorResponse from "./interfaces/ErrorResponse";
-import { ZodIssue } from "zod";
+import RequestValidators from "./interfaces/RequestValidators";
 
 export function notFound(req: Request, res: Response, next: NextFunction) {
   res.status(404);
@@ -10,7 +10,7 @@ export function notFound(req: Request, res: Response, next: NextFunction) {
 }
 
 export function errorHandler(
-  err: Error & { issues: ZodIssue[] },
+  err: Error & ZodError,
   req: Request,
   res: Response<ErrorResponse>,
   next: NextFunction
@@ -19,15 +19,39 @@ export function errorHandler(
 
   // For Zod errors
   if (Object.hasOwn(err, "issues")) {
-    return res.status(400).json({
+    // 422 means "Unprocessable Entity"
+    return res.status(422).json({
       message: "Zod Error",
       issues: err.issues,
     });
-  } else {
-    res.status(statusCode);
-    return res.json({
-      message: err.message,
-      stack: process.env.NODE_ENV === "production" ? "🥞" : err.stack,
-    });
   }
+
+  return res.status(statusCode).json({
+    message: err.message,
+    stack: process.env.NODE_ENV === "production" ? "🥞" : err.stack,
+  });
+}
+
+export function validateRequest(validators: RequestValidators) {
+  return (req: Request, res: Response, next: NextFunction) => {
+    try {
+      if (validators.params) {
+        req.params = validators.params.parse(req.params);
+      }
+      if (validators.query) {
+        req.query = validators.query.parse(req.query);
+      }
+      if (validators.body) {
+        req.body = validators.body.parse(req.body);
+      }
+
+      // Goes to the controller function
+      next();
+    } catch (error) {
+      if (error instanceof ZodError) {
+        res.status(422);
+      }
+      next(error);
+    }
+  };
 }
