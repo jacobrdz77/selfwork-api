@@ -1,0 +1,1069 @@
+openapi: 3.0.0
+info:
+  description: "This is a REST API for [Selfwork](http://selfwork.vercel.app)."
+  version: 1.0.0
+  title: Selfwork
+  contact:
+    email: "contact@selfwork.com"
+tags:
+  - name: projects
+  - name: sections
+  - name: tasks
+  - name: clients
+  - name: workspaces
+  - name: users
+  - name: sketches
+paths:
+  /projects:
+    post:
+      tags:
+        - projects
+      summary: Creates a new project
+      description: "Creates a project"
+      operationId: addProject
+      requestBody:
+        $ref: "#/components/requestBodies/Project"
+      responses:
+        "422":
+          description: Invalid input
+        "200":
+          description: Created Project
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Project"
+    get:
+      tags:
+        - projects
+      summary: Find all projects by workspaceId
+      description: Using the workspaceId from path to get all projects
+      operationId: getProjectByWorkspaceId
+      parameters:
+        - name: workspaceId
+          in: query
+          description: ""
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Created project
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Project"
+        "404":
+          description: Project not found
+  /projects/{projectId}:
+    get:
+      tags:
+        - projects
+      summary: Find project by ID
+      description: "Gets project by ID"
+      operationId: getProjectById
+      parameters:
+        - name: projectId
+          in: path
+          description: "In paramater"
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Project"
+        "404":
+          description: Project not found
+    put:
+      tags:
+        - projects
+      summary: "Update an existing project"
+      description: "Updates project"
+      operationId: updateProject
+      parameters:
+        - name: projectId
+          in: path
+          description: "In parameter"
+          required: true
+          schema:
+            type: string
+      requestBody:
+        $ref: "#/components/requestBodies/Project"
+      responses:
+        "404":
+          description: Project not found
+        "405":
+          description: Validation exception
+        "204":
+          description: Updated Project
+    delete:
+      tags:
+        - projects
+      summary: Deletes a project
+      description: ""
+      operationId: deleteProject
+      parameters:
+        - name: projectId
+          in: path
+          description: In paramater
+          required: true
+          schema:
+            type: string
+      responses:
+        "404":
+          description: Project not found
+        "204":
+          description: Project Deleted
+  /projects/{projectId}/sections:
+    post:
+      tags:
+        - projects
+      summary: "Creates a section for project"
+      description: "Creates a new section using the projectId."
+      operationId: createSectionForProject
+      parameters:
+        - name: projectId
+          in: path
+          description: "In path"
+          required: true
+          schema:
+            type: string
+      requestBody:
+        $ref: "#/components/requestBodies/Section"
+      responses:
+        "422":
+          description: Invalid input
+        "200":
+          $ref: "#/components/responses/Section"
+    get:
+      tags:
+        - projects
+      summary: "Gets all sections from one project"
+      description: "Gets sections using the projectId"
+      operationId: createSectionForProject
+      parameters:
+        - name: projectId
+          in: path
+          description: "In path"
+          required: true
+          schema:
+            type: string
+      requestBody:
+        $ref: "#/components/requestBodies/Section"
+      responses:
+        "422":
+          description: Invalid input
+        "200":
+          $ref: "#/components/responses/Sections"
+  /users/{userId}/sections:
+    post:
+      tags:
+        - users
+      summary: "Creates a section for user"
+      description: "Add a new section using the userId."
+      operationId: createSectionForUser
+      parameters:
+        - name: userId
+          in: path
+          description: "In path"
+          required: true
+          schema:
+            type: string
+      requestBody:
+        $ref: "#/components/requestBodies/Section"
+      responses:
+        "422":
+          description: Invalid input
+        "200":
+          $ref: "#/components/responses/Section"
+    get:
+      tags:
+        - users
+      summary: "Gets all sections from user"
+      description: "Gets sections using the userId"
+      operationId: getUserSections
+      parameters:
+        - name: userId
+          in: path
+          description: "In path"
+          required: true
+          schema:
+            type: string
+      responses:
+        "422":
+          description: Invalid input
+        "200":
+          $ref: "#/components/responses/Sections"
+  /users/{userId}/clients:
+    get:
+      tags:
+        - users
+      summary: "Gets all clients from user"
+      description: "Gets clients using the userId"
+      operationId: getUserclients
+      parameters:
+        - name: userId
+          in: path
+          description: "In path"
+          required: true
+          schema:
+            type: string
+      responses:
+        "422":
+          description: Invalid input
+        "405":
+          description: Validation exception
+        "200":
+          $ref: "#/components/responses/Clients"
+  /sections:
+    put:
+      tags:
+        - sections
+      summary: "Updates the order of 2 sections."
+      description: "The order of the 2 sections are switched."
+      operationId: updateSectionOrders
+      requestBody:
+        $ref: "#/components/requestBodies/UpdateSectionOrder"
+      responses:
+        "405":
+          description: Validation exception
+        "204":
+          description: Updated order of sections
+  /sections/{sectionId}:
+    get:
+      tags:
+        - sections
+      summary: Find section by ID
+      description: "Gets section by ID"
+      operationId: getSectionById
+      parameters:
+        - name: sectionId
+          in: path
+          description: "In paramater"
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Section"
+        "404":
+          description: section not found
+    put:
+      tags:
+        - sections
+      summary: "Update an existing section"
+      description: "Updates section"
+      operationId: updateSection
+      parameters:
+        - name: sectionId
+          in: path
+          description: "In parameter"
+          required: true
+          schema:
+            type: string
+      requestBody:
+        $ref: "#/components/requestBodies/Section"
+      responses:
+        "404":
+          description: Section not found
+        "405":
+          description: Validation exception
+        "204":
+          description: Updated Section
+    delete:
+      tags:
+        - sections
+      summary: Deletes a section
+      description: ""
+      operationId: deleteSection
+      parameters:
+        - name: sectionId
+          in: path
+          description: In paramater
+          required: true
+          schema:
+            type: string
+      responses:
+        "404":
+          description: Section not found
+        "204":
+          description: Section Deleted
+  /sections/{sectionId}/tasks:
+    post:
+      tags:
+        - sections
+      summary: Creates a new task to section
+      description: ""
+      operationId: addtask
+      parameters:
+        - name: sectionId
+          in: path
+          description: "In path"
+          required: true
+          schema:
+            type: string
+      requestBody:
+        $ref: "#/components/requestBodies/Task"
+      responses:
+        "422":
+          description: Invalid input
+        "200":
+          type: array
+          $ref: "#/components/responses/Task"
+  /tasks/{taskId}:
+    get:
+      tags:
+        - tasks
+      summary: Find task by ID
+      description: "Gets task by ID"
+      operationId: getTaskById
+      parameters:
+        - name: taskId
+          in: path
+          description: "In paramater"
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          $ref: "#/components/responses/Task"
+        "404":
+          description: Task not found
+    put:
+      tags:
+        - tasks
+      summary: "Update an existing Task"
+      description: "Updates Task"
+      operationId: updateTask
+      parameters:
+        - name: taskId
+          in: path
+          description: "In parameter"
+          required: true
+          schema:
+            type: string
+      requestBody:
+        $ref: "#/components/requestBodies/Task"
+      responses:
+        "404":
+          description: Task not found
+        "405":
+          description: Validation exception
+        "204":
+          description: Updated Task
+    delete:
+      tags:
+        - tasks
+      summary: Deletes a task
+      description: ""
+      operationId: deleteTask
+      parameters:
+        - name: taskId
+          in: path
+          description: In paramater
+          required: true
+          schema:
+            type: string
+      responses:
+        "404":
+          description: Task not found
+        "204":
+          description: Task Deleted
+  /clients:
+    post:
+      tags:
+        - clients
+      summary: Creates a new client
+      description: "Creates a client"
+      operationId: addClient
+      requestBody:
+        $ref: "#/components/requestBodies/Client"
+      responses:
+        "422":
+          description: Invalid input
+        "200":
+          $ref: "#/components/responses/Client"
+  /clients/{clientId}:
+    get:
+      tags:
+        - clients
+      summary: Find client by ID
+      description: "Gets client by ID"
+      operationId: getClientById
+      parameters:
+        - name: clientId
+          in: path
+          description: "In paramater"
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Client"
+        "404":
+          description: Client not found
+    put:
+      tags:
+        - clients
+      summary: "Update an existing client"
+      description: "Updates client"
+      operationId: updateClient
+      parameters:
+        - name: clientId
+          in: path
+          description: "In parameter"
+          required: true
+          schema:
+            type: string
+      requestBody:
+        $ref: "#/components/requestBodies/Client"
+      responses:
+        "404":
+          description: Client not found
+        "405":
+          description: Validation exception
+        "204":
+          description: Updated Client
+    delete:
+      tags:
+        - clients
+      summary: Deletes a client
+      description: ""
+      operationId: deleteClient
+      parameters:
+        - name: clientId
+          in: path
+          description: In paramater
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: Client deleted
+        "404":
+          description: Client not found
+  /workspaces:
+    post:
+      tags:
+        - workspaces
+      summary: Creates a new workspace
+      description: "Creates a workspace"
+      operationId: addWorkspace
+      requestBody:
+        $ref: "#/components/requestBodies/Workspace"
+      responses:
+        "422":
+          description: Invalid input
+        "200":
+          $ref: "#/components/responses/Workspace"
+  /workspaces/{workspaceId}:
+    get:
+      tags:
+        - workspaces
+      summary: Find workspace by ID
+      description: "Gets workspace by ID"
+      operationId: getWorkspaceById
+      parameters:
+        - name: workspaceId
+          in: path
+          description: "In paramater"
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          $ref: "#/components/responses/Workspace"
+        "404":
+          description: workspace not found
+    put:
+      tags:
+        - workspaces
+      summary: "Update an existing workspace"
+      description: "Updates workspace"
+      operationId: updateWorkspace
+      parameters:
+        - name: workspaceId
+          in: path
+          description: "In parameter"
+          required: true
+          schema:
+            type: string
+      requestBody:
+        $ref: "#/components/requestBodies/Workspace"
+      responses:
+        "204":
+          description: Updated workspace
+        "404":
+          description: Workspace not found
+        "405":
+          description: Validation exception
+    delete:
+      tags:
+        - workspaces
+      summary: Deletes a workspace
+      description: ""
+      operationId: deleteWorkspace
+      parameters:
+        - name: workspaceId
+          in: path
+          description: In paramater
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: Workspace deleted
+        "404":
+          description: Workspace not found
+
+servers:
+  - url: https://localhost:5000/api
+components:
+  #######* Request Bodies
+  requestBodies:
+    Project:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+                example: Law Firm Website
+              description:
+                type: string
+                example: This project will help the local law firm!
+              clientId:
+                type: string
+              lumpSum:
+                type: number
+                minimum: 0
+              # Planning to Implement
+              # monthlyPay:
+              #   type: number
+              #   minimum: 0
+              startDate:
+                type: string
+                example: "2023-09-28T12:00:00.000Z"
+              dueDate:
+                type: string
+                example: "2023-09-28T12:00:00.000Z"
+              workspaceId:
+                type: string
+              ownerId:
+                type: string
+      required: true
+    Section:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+                example: Todos
+              projectId:
+                type: string
+              userId:
+                type: string
+    UpdateSectionOrder:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              firstSectionOrder:
+                type: number
+                example: 3
+              secondSectionOrder:
+                type: number
+                example: 8
+      required: true
+    Task:
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - name
+              - sectionId
+            properties:
+              name:
+                type: string
+                example: Create UI components for home page
+              description:
+                type: string
+              priority:
+                $ref: "#/components/schemas/Priority"
+              sectionId:
+                type: string
+              assigneeId:
+                type: string
+              order:
+                type: number
+                example: 4
+      required: true
+    Client:
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - name
+            properties:
+              name:
+                type: string
+                example: Bob Johnson
+              companyName:
+                type: string
+                example: Law Firm LLC
+              email:
+                type: string
+                example: bobjohn@gmail.com
+              businessAddress:
+                type: string
+                example: 123 Rocky Drive
+              phone:
+                type: string
+                example: "531888999"
+              userId:
+                type: string
+      required: true
+    Workspace:
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - name
+              - ownerId
+            properties:
+              name:
+                type: string
+                example: Jacobs Workspace
+              ownerId:
+                type: string
+                example: 877b4f45-3f89-4f8e-9da0-d1dad7c09a6e
+      required: true
+  #######* Responses
+  responses:
+    Project:
+      description: Sends back a full project
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Project"
+    Projects:
+      description: Sends back an array of projects
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/Project"
+    Section:
+      description: Sends back a section
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Section"
+    Sections:
+      description: Sends back an array of sections
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/Section"
+    Tasks:
+      description: Sends back an array of tasks
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/Task"
+    Task:
+      description: Sends back a task
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - name
+              - sectionId
+            properties:
+              id:
+                type: string
+              name:
+                type: string
+                example: Create UI components for home page
+              description:
+                type: string
+              priority:
+                $ref: "#/components/schemas/Priority"
+              order:
+                type: number
+                example: 4
+              status:
+                enum:
+                  - Open
+                  - InProgress
+                  - InReview
+                  - Delayed
+                  - Done
+                example: Open
+              sectionId:
+                type: string
+              assigneeId:
+                type: string
+              updatedAt:
+                type: string
+                example: "2023-09-28T12:00:00.000Z"
+              createdAt:
+                type: string
+                example: "2023-09-28T12:00:00.000Z"
+    Client:
+      description: Sends back a client
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Client"
+    Clients:
+      description: Sends back an array of clients
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/Client"
+    Workspace:
+      description: Sends back a workspace
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - name
+              - ownerId
+            properties:
+              id:
+                type: string
+              name:
+                type: string
+                example: Jacobs Workspace
+              ownerId:
+                type: string
+                example: 877b4f45-3f89-4f8e-9da0-d1dad7c09a6e
+  ########* Schemas
+  schemas:
+    Workspace:
+      type: object
+      required:
+        - name
+        - ownerId
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+          example: Jacobs Workspace
+        ownerId:
+          type: string
+          example: 877b4f45-3f89-4f8e-9da0-d1dad7c09a6e
+        inviteLinks:
+          type: array
+          items:
+            $ref: "#/components/schemas/InviteLink"
+        projects:
+          type: array
+          items:
+            $ref: "#/components/schemas/Project"
+        members:
+          type: array
+          items:
+            $ref: "#/components/schemas/User"
+    Project:
+      type: object
+      required:
+        - name
+        - ownerId
+        - workspaceId
+      properties:
+        id:
+          type: string
+          example: 877b4f45-3f89-4f8e-9da0-d1dad7c09a6e
+        name:
+          type: string
+          example: Law Firm Website
+        description:
+          type: string
+          example: This project will help the local law firm!
+        workspaceId:
+          type: string
+          example: 877b4f45-3f89-4f8e-9da0-d1dad7c09a6e
+        ownerId:
+          type: string
+          example: 877b4f45-3f89-4f8e-9da0-d1dad7c09a6e
+        clientId:
+          type: string
+        status:
+          enum: [Active, OnTrack, OffTrack, OnHold, InTesting, Approved]
+        iconColor:
+          $ref: "#/components/schemas/Color"
+        lumpSum:
+          type: number
+          example: 5800
+        monthlyPay:
+          type: number
+          example: 150
+        order:
+          type: number
+          example: 4
+        startDate:
+          type: string
+          example: "2023-09-28T12:00:00.000Z"
+        dueDate:
+          type: string
+          example: "2023-09-28T12:00:00.000Z"
+        members:
+          type: array
+          items:
+            $ref: "#/components/schemas/User"
+        sections:
+          type: array
+          items:
+            $ref: "#/components/schemas/Section"
+        inviteLinks:
+          type: array
+          items:
+            $ref: "#/components/schemas/InviteLink"
+        # I still need to add Notes, Sketches,
+    Section:
+      type: object
+      required:
+        - name
+      properties:
+        id:
+          type: string
+          example: 877b4f45-3f89-4f8e-9da0-d1dad7c09a6e
+        name:
+          type: string
+          example: Todos
+        projectId:
+          type: string
+          example: 877b4f45-3f89-4f8e-9da0-d1dad7c09a6e
+        userId:
+          type: string
+          example: 877b4f45-3f89-4f8e-9da0-d1dad7c09a6e
+        order:
+          type: number
+          minimum: 0
+        createdAt:
+          type: string
+          example: "2023-09-28T12:00:00.000Z"
+        tasks:
+          type: array
+          items:
+            $ref: "#/components/schemas/Task"
+    Task:
+      type: object
+      required:
+        - name
+        - sectionId
+      properties:
+        id:
+          type: string
+          example: 877b4f45-3f89-4f8e-9da0-d1dad7c09a6e
+        name:
+          type: string
+          example: To dos
+        description:
+          type: string
+        isComplete:
+          type: boolean
+        priority:
+          $ref: "#/components/schemas/Priority"
+        status:
+          enum:
+            - Open
+            - InProgress
+            - InReview
+            - Delayed
+            - Done
+        sectionId:
+          type: string
+          example: 877b4f45-3f89-4f8e-9da0-d1dad7c09a6e
+        assigneeId:
+          type: string
+          example: 877b4f45-3f89-4f8e-9da0-d1dad7c09a6e
+        order:
+          type: number
+          example: 7
+        updatedAt:
+          type: string
+          example: "2023-09-28T12:00:00.000Z"
+        createdAt:
+          type: string
+          example: "2023-09-28T12:00:00.000Z"
+        tags:
+          type: array
+          items:
+            $ref: "#/components/schemas/Tag"
+    Tag:
+      type: object
+      required:
+        - name
+        - sectionId
+      properties:
+        id:
+          type: string
+          example: 877b4f45-3f89-4f8e-9da0-d1dad7c09a6e
+        name:
+          type: string
+          example: Todos
+        color:
+          $ref: "#/components/schemas/Color"
+        taskId:
+          type: string
+    InviteLink:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 877b4f45-3f89-4f8e-9da0-d1dad7c09a6e
+        expirationDate:
+          type: string
+          example: "2023-09-28T12:00:00.000Z"
+        workspaceId:
+          type: string
+          example: 877b4f45-3f89-4f8e-9da0-d1dad7c09a6e
+        projectId:
+          type: string
+          example: 877b4f45-3f89-4f8e-9da0-d1dad7c09a6e
+    User:
+      type: object
+      required:
+        - name
+      properties:
+        id:
+          type: string
+          example: 877b4f45-3f89-4f8e-9da0-d1dad7c09a6e
+        name:
+          type: string
+          example: Todos
+        email:
+          type: string
+        emailVerified:
+          type: string
+        mobilePhone:
+          type: string
+        image:
+          type: string
+        userAssignedTasksSectionId:
+          type: string
+        lastUsingWorkspaceId:
+          type: string
+        assignedTasks:
+          type: array
+          items:
+            $ref: "#/components/schemas/Task"
+        ownedWorkspaces:
+          type: array
+          items:
+            $ref: "#/components/schemas/Workspace"
+        involvedWorkspaces:
+          type: array
+          items:
+            $ref: "#/components/schemas/Workspace"
+        ownedProjects:
+          type: array
+          items:
+            $ref: "#/components/schemas/Project"
+        involvedProjects:
+          type: array
+          items:
+            $ref: "#/components/schemas/Project"
+    Client:
+      type: object
+      required:
+        - name
+      properties:
+        id:
+          type: string
+          example: 877b4f45-3f89-4f8e-9da0-d1dad7c09a6e
+        name:
+          type: string
+          example: Bob Johnson
+        companyName:
+          type: string
+          example: Law Firm LLC
+        email:
+          type: string
+          example: bobjohn@gmail.com
+        businessAddress:
+          type: string
+          example: 123 Rocky Drive
+        phone:
+          type: string
+          example: "531888999"
+        userId:
+          type: string
+          example: 877b4f45-3f89-4f8e-9da0-d1dad7c09a6e
+        status:
+          type: string
+          enum: [Active, Pending, Closed]
+        order:
+          type: number
+          example: 7
+        totalMonthly:
+          type: number
+          example: 100
+        totalLumpSum:
+          type: number
+          example: 5600
+        projects:
+          type: array
+          items:
+            $ref: "#/components/schemas/Project"
+    Color:
+      enum:
+        - Classic
+        - Maroon
+        - OrangeYellow
+        - YellowGreen
+        - Forest
+        - BlueGreen
+        - Aqua
+        - Blue
+        - Purple
+        - PinkPurple
+        - Pink
+        - Oat
+    Priority:
+      enum:
+        - None
+        - Low
+        - Medium
+        - High
+#     ApiResponse:
+#       type: object
+#       properties:
+#         code:
+#           type: integer
+#           format: int32
+#         type:
+#           type: string
+#         message:
+#           type: string

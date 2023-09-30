@@ -9,7 +9,7 @@ const TagValidator = z.object({
 
 const TaskValidator = z.object({
   name: z.string(),
-  description: z.string(),
+  description: z.string().nullish(),
   priority: z.enum(["None", "Low", "Medium", "High"]).default("None"),
   status: z.enum(["Open", "InProgress", "InReview", "Delayed"]).default("Open"),
   isComplete: z.boolean().default(false),
