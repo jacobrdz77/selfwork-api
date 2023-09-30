@@ -541,6 +541,10 @@ components:
               name:
                 type: string
                 example: Law Firm Website
+              workspaceId:
+                type: string
+              ownerId:
+                type: string
               description:
                 type: string
                 example: This project will help the local law firm!
@@ -559,10 +563,7 @@ components:
               dueDate:
                 type: string
                 example: "2023-09-28T12:00:00.000Z"
-              workspaceId:
-                type: string
-              ownerId:
-                type: string
+
       required: true
     Section:
       content:

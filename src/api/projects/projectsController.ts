@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { createProjectService } from "./projectsService";
+import { createProjectService, findAllProjectService } from "./projectsService";
 import { Project } from "./projectsModel";
 
 async function createProject(
@@ -11,8 +11,12 @@ async function createProject(
   return res.status(200).json(createdProject);
 }
 
-async function getAllProjects(req: Request, res: Response) {
-  res.json({});
+async function getAllProjects(
+  req: Request<{}, {}, {}, { workspaceId: string }>,
+  res: Response
+) {
+  const projects = await findAllProjectService(req.query.workspaceId);
+  return res.status(200).json(projects);
 }
 
 async function getOneProject(req: Request<{ id: string }>, res: Response) {

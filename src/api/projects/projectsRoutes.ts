@@ -1,7 +1,7 @@
 import express from "express";
 import projectsController from "./projectsController";
 import { validateRequest } from "../../middlewares";
-import { ProjectValidator } from "./projectsModel";
+import { ProjectQueryValidator, ProjectValidator } from "./projectsModel";
 
 const router = express.Router();
 
@@ -13,9 +13,22 @@ router.post(
   projectsController.createProject
 );
 
-router.get("/", projectsController.getAllProjects);
+router.get(
+  "/",
+  validateRequest({
+    query: ProjectQueryValidator,
+  }),
+  projectsController.getAllProjects
+);
 router.get("/:id", projectsController.getOneProject);
-router.put("/:id", projectsController.getAllProjects);
-router.delete("/:id", projectsController.getAllProjects);
+
+router.put(
+  "/:id",
+  validateRequest({
+    body: ProjectValidator,
+  }),
+  projectsController.updateProject
+);
+router.delete("/:id", projectsController.deleteProject);
 
 export default router;

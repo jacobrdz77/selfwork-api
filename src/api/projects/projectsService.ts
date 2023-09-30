@@ -5,7 +5,7 @@ import { Project } from "./projectsModel";
 
 // Create Project
 export async function createProjectService(project: Project) {
-  const projects = await prisma.project.create({
+  const newProject = await prisma.project.create({
     data: {
       name: project.name,
       description: project.description,
@@ -45,12 +45,23 @@ export async function createProjectService(project: Project) {
     },
   });
 
-  return projects;
+  return newProject;
 }
 // Find One Project
 export async function findOneProjectService() {}
 // Find All Projects
-export async function findAllProjectService() {}
+export async function findAllProjectService(workspaceId: string) {
+  const projects = await prisma.project.findMany({
+    where: {
+      workspaceId: workspaceId,
+    },
+    orderBy: {
+      createdAt: "asc",
+    },
+  });
+
+  return projects;
+}
 // Update Project
 export async function updateProjectService() {}
 // Delete Project
