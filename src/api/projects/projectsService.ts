@@ -48,7 +48,24 @@ export async function createProjectService(project: Project) {
   return newProject;
 }
 // Find One Project
-export async function findOneProjectService() {}
+export async function findOneProjectService(id: string) {
+  const project = await prisma.project.findUnique({
+    where: {
+      id,
+    },
+    include: {
+      sections: {
+        include: {
+          tasks: true,
+        },
+      },
+      // Might make this dynamic
+      members: true,
+    },
+  });
+
+  return project;
+}
 // Find All Projects
 export async function findAllProjectService(workspaceId: string) {
   const projects = await prisma.project.findMany({

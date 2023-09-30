@@ -1,6 +1,8 @@
 import request from "supertest";
 import app from "../../app";
 
+const PROJECT_ID = "cldclt74u9600gpecetnyigta";
+
 describe("POST /api/projects", () => {
   it("Creates a project and checks if it creates it by finding the id", async () => {
     const response = await request(app)
@@ -80,5 +82,20 @@ describe("Testing for query validation for GET /api/projects", () => {
         },
       ],
     });
+  });
+});
+
+describe("Testing for GET /api/projects/:id to find one project", () => {
+  it("Returns a Project with sections and members", async () => {
+    const response = await request(app)
+      .get(`/api/projects/${PROJECT_ID}`)
+      // .query({ workspaceId: "opdclt74u9913gpecetnyigta" })
+      .set("Accept", "application/json")
+      .expect("Content-Type", /json/)
+      .expect(200);
+
+    expect(response.body).toHaveProperty("id");
+    expect(response.body).toHaveProperty("sections");
+    expect(response.body).toHaveProperty("members");
   });
 });
