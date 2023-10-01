@@ -1,6 +1,6 @@
 // Here is where the business logic is
 import prisma from "../../lib/prisma/prismaClient";
-import randomColor from "../../utils/randomColor";
+import randomColor, { transformColor } from "../../utils/randomColor";
 import { Project } from "./projectsModel";
 
 // Create Project
@@ -80,6 +80,26 @@ export async function findAllProjectService(workspaceId: string) {
   return projects;
 }
 // Update Project
-export async function updateProjectService() {}
+export async function updateProjectService(
+  id: string,
+  newProjectData: Project
+) {
+  await prisma.project.update({
+    where: {
+      id,
+    },
+    data: {
+      name: newProjectData.name,
+      iconColor: transformColor(newProjectData.iconColor!),
+    },
+  });
+}
+
 // Delete Project
-export async function deleteProjectService() {}
+export async function deleteProjectService(id: string) {
+  await prisma.project.delete({
+    where: {
+      id,
+    },
+  });
+}

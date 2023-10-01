@@ -24,31 +24,34 @@ const ProjectStatus = z.enum([
   "Approved",
 ]);
 
-export const ProjectValidator = z.object({
-  name: z.string(),
-  workspaceId: z.string(),
-  ownerId: z.string(),
-  clientId: z.string().nullish(),
-  description: z.string().optional(),
-  priority: z.enum(["None", "Low", "Medium", "High"]),
-  startDate: z.date().nullish(),
-  dueDate: z.date().nullish(),
-  monthlyPay: z.number().nonnegative().nullish(),
-  lumpSum: z.number().nullish(),
+export const ProjectValidator = z
+  .object({
+    name: z.string(),
+    workspaceId: z.string(),
+    ownerId: z.string(),
+    priority: z.enum(["None", "Low", "Medium", "High"]).nullish(),
+    clientId: z.string().nullish(),
+    description: z.string().optional(),
+    startDate: z.date().nullish(),
+    dueDate: z.date().nullish(),
+    monthlyPay: z.number().nonnegative().nullish(),
+    lumpSum: z.number().nullish(),
 
-  // These properties are generated in backend
-  iconColor: Color.nullish(),
-  order: z.number().nonnegative().nullish(),
-  createdAt: z.date().nullish(),
-  updatedAt: z.date().nullish(),
-  // Commented all schemas that z.array()
-  // These are commented out because encapsulating schemas don't work
-  // sections: z.array(SectionProjectValidator).optional(),
-  // notes: z.array(z.object({})).optional(),
-  // sketches: z.array(z.object({})).optional(),
-  // members: z.array(UserValidator).optional(),
-  // inviteLinks: z.array(z.object({})).optional(),
-});
+    // These properties are generated in backend
+    iconColor: Color.optional(),
+    order: z.number().nonnegative().nullish(),
+    createdAt: z.date().optional(),
+    updatedAt: z.date().optional(),
+    // Commented all schemas that z.array()
+    // These are commented out because encapsulating schemas don't work
+    // sections: z.array(SectionProjectValidator).optional(),
+    // sketches: z.array(z.object({})).optional(),
+    // members: z.array(UserValidator).optional(),
+    // inviteLinks: z.array(z.object({})).optional(),
+  })
+  .strict();
+
+export const UpdateProjectValidator = ProjectValidator.partial();
 
 export const ProjectQueryValidator = z.object({
   workspaceId: z.string(),

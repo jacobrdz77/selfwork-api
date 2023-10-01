@@ -1,7 +1,13 @@
 import express from "express";
-import projectsController from "./projectsController";
 import { validateRequest } from "../../middlewares";
-import { ProjectQueryValidator, ProjectValidator } from "./projectsModel";
+import projectsController from "./projectsController";
+import {
+  ProjectQueryValidator,
+  ProjectValidator,
+  UpdateProjectValidator,
+} from "./projectsModel";
+import { SectionValidator } from "../sections/sectionsModel";
+import sectionsController from "../sections/sectionsController";
 
 const router = express.Router();
 
@@ -25,10 +31,21 @@ router.get("/:id", projectsController.getOneProject);
 router.put(
   "/:id",
   validateRequest({
-    body: ProjectValidator,
+    body: UpdateProjectValidator,
   }),
   projectsController.updateProject
 );
 router.delete("/:id", projectsController.deleteProject);
+
+// For Sections
+router.post(
+  "/:id/sections",
+  validateRequest({
+    body: SectionValidator,
+  }),
+  sectionsController.createSection
+);
+
+router.get("/:id/sections", sectionsController.getAllSections);
 
 export default router;

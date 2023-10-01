@@ -1,19 +1,12 @@
 import z from "zod";
 
-export const SectionEntity = z.object({
+export const SectionValidator = z.object({
   name: z.string(),
-  projectId: z.string(),
-  userId: z.string(),
-  order: z.number().nonnegative(),
+  projectId: z.string().nullish(),
+  userId: z.string().nullish(),
+  order: z.number().nonnegative().optional(),
   createdAt: z.date().nullish(),
   // tasks: z.array(z.object({})).optional(),
 });
 
-export const SectionProjectValidator = SectionEntity.omit({
-  userId: true,
-});
-export const SectionUserValidator = SectionEntity.omit({
-  projectId: true,
-});
-
-export type Section = z.infer<typeof SectionEntity>;
+export type Section = z.infer<typeof SectionValidator>;

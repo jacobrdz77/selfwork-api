@@ -574,10 +574,6 @@ components:
               name:
                 type: string
                 example: Todos
-              projectId:
-                type: string
-              userId:
-                type: string
     UpdateSectionOrder:
       content:
         application/json:

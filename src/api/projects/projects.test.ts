@@ -21,7 +21,7 @@ describe("POST /api/projects", () => {
   });
 });
 
-describe("Testing for error for POST /api/projects", () => {
+describe("Checks error response for POST /api/projects", () => {
   it("THROWS a Zod error", async () => {
     const response = await request(app)
       .post("/api/projects")
@@ -49,19 +49,12 @@ describe("Testing for error for POST /api/projects", () => {
           path: ["ownerId"],
           message: "Required",
         },
-        {
-          expected: "'None' | 'Low' | 'Medium' | 'High'",
-          received: "undefined",
-          code: "invalid_type",
-          path: ["priority"],
-          message: "Required",
-        },
       ],
     });
   });
 });
 
-describe("Testing for query validation for GET /api/projects", () => {
+describe("Checking query validation error for GET /api/projects", () => {
   it("THROWS a Zod error", async () => {
     const response = await request(app)
       .get("/api/projects")
@@ -82,6 +75,21 @@ describe("Testing for query validation for GET /api/projects", () => {
         },
       ],
     });
+  });
+});
+
+describe("Get one project using GET /api/projects/:id ", () => {
+  it("Returns a Project with sections and members", async () => {
+    const response = await request(app)
+      .get(`/api/projects/${PROJECT_ID}`)
+      // .query({ workspaceId: "opdclt74u9913gpecetnyigta" })
+      .set("Accept", "application/json")
+      .expect("Content-Type", /json/)
+      .expect(200);
+
+    expect(response.body).toHaveProperty("id");
+    expect(response.body).toHaveProperty("sections");
+    expect(response.body).toHaveProperty("members");
   });
 });
 

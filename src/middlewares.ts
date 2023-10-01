@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { ZodError } from "zod";
 import ErrorResponse from "./interfaces/ErrorResponse";
 import RequestValidators from "./interfaces/RequestValidators";
+import { Prisma } from "@prisma/client";
 
 export function notFound(req: Request, res: Response, next: NextFunction) {
   res.status(404);
@@ -10,7 +11,7 @@ export function notFound(req: Request, res: Response, next: NextFunction) {
 }
 
 export function errorHandler(
-  err: Error & ZodError,
+  error: Error & ZodError,
   req: Request,
   res: Response<ErrorResponse>,
   next: NextFunction
@@ -18,17 +19,32 @@ export function errorHandler(
   const statusCode = res.statusCode !== 200 ? res.statusCode : 500;
 
   // For Zod errors
-  if (Object.hasOwn(err, "issues")) {
+  if (error.name === "ZodError") {
     // 422 means "Unprocessable Entity"
     return res.status(422).json({
       message: "Zod Error",
-      issues: err.issues,
+      issues: error.issues,
     });
   }
 
+  // Prisma Errors
+  if (error instanceof Prisma.PrismaClientKnownRequestError) {
+    switch (error.code) {
+      case "P2025":
+        return res.status(404).json({
+          message:
+            "An operation failed because it depends on one or more records that were required but not found.",
+        });
+      default:
+        return res.status(400).json({
+          message: error.message,
+        });
+    }
+  }
+
   return res.status(statusCode).json({
-    message: err.message,
-    stack: process.env.NODE_ENV === "production" ? "🥞" : err.stack,
+    message: error.message,
+    stack: process.env.NODE_ENV === "production" ? "🥞" : error.stack,
   });
 }
 
