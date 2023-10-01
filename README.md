@@ -1,10 +1,4 @@
-# Express API Starter with Typescript
-
-How to use this template:
-
-```sh
-npx create-express-api --typescript --directory my-api-name
-```
+# Selfwork REST API
 
 Includes API Server utilities:
 
