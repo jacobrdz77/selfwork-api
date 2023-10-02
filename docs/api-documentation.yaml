@@ -64,7 +64,7 @@ paths:
       parameters:
         - name: projectId
           in: path
-          description: "In paramater"
+          description: " "
           required: true
           schema:
             type: string
@@ -86,7 +86,7 @@ paths:
       parameters:
         - name: projectId
           in: path
-          description: "In parameter"
+          description: ""
           required: true
           schema:
             type: string
@@ -108,7 +108,7 @@ paths:
       parameters:
         - name: projectId
           in: path
-          description: In paramater
+          description: ""
           required: true
           schema:
             type: string
@@ -233,28 +233,28 @@ paths:
         "204":
           description: Updated order of sections
   /sections/{sectionId}:
-    get:
-      tags:
-        - sections
-      summary: Find section by ID
-      description: "Gets section by ID"
-      operationId: getSectionById
-      parameters:
-        - name: sectionId
-          in: path
-          description: "In paramater"
-          required: true
-          schema:
-            type: string
-      responses:
-        "200":
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Section"
-        "404":
-          description: section not found
+    # get:
+    #   tags:
+    #     - sections
+    #   summary: Find section by ID
+    #   description: "Gets section by ID"
+    #   operationId: getSectionById
+    #   parameters:
+    #     - name: sectionId
+    #       in: path
+    #       description: " "
+    #       required: true
+    #       schema:
+    #         type: string
+    #   responses:
+    #     "200":
+    #       description: Success
+    #       content:
+    #         application/json:
+    #           schema:
+    #             $ref: "#/components/schemas/Section"
+    #     "404":
+    #       description: section not found
     put:
       tags:
         - sections
@@ -264,7 +264,7 @@ paths:
       parameters:
         - name: sectionId
           in: path
-          description: "In parameter"
+          description: ""
           required: true
           schema:
             type: string
@@ -286,7 +286,7 @@ paths:
       parameters:
         - name: sectionId
           in: path
-          description: In paramater
+          description: ""
           required: true
           schema:
             type: string
@@ -317,6 +317,20 @@ paths:
         "200":
           type: array
           $ref: "#/components/responses/Task"
+  /tasks:
+    put:
+      tags:
+        - tasks
+      summary: "Updates the order of 2 tasks."
+      description: "The order of the 2 tasks are switched."
+      operationId: updateTaskOrders
+      requestBody:
+        $ref: "#/components/requestBodies/UpdateTaskOrder"
+      responses:
+        "405":
+          description: Validation exception
+        "204":
+          description: Updated order of tasks
   /tasks/{taskId}:
     get:
       tags:
@@ -327,7 +341,7 @@ paths:
       parameters:
         - name: taskId
           in: path
-          description: "In paramater"
+          description: " "
           required: true
           schema:
             type: string
@@ -345,7 +359,7 @@ paths:
       parameters:
         - name: taskId
           in: path
-          description: "In parameter"
+          description: ""
           required: true
           schema:
             type: string
@@ -367,7 +381,7 @@ paths:
       parameters:
         - name: taskId
           in: path
-          description: In paramater
+          description: ""
           required: true
           schema:
             type: string
@@ -400,7 +414,7 @@ paths:
       parameters:
         - name: clientId
           in: path
-          description: "In paramater"
+          description: ""
           required: true
           schema:
             type: string
@@ -422,7 +436,7 @@ paths:
       parameters:
         - name: clientId
           in: path
-          description: "In parameter"
+          description: ""
           required: true
           schema:
             type: string
@@ -444,7 +458,7 @@ paths:
       parameters:
         - name: clientId
           in: path
-          description: In paramater
+          description: ""
           required: true
           schema:
             type: string
@@ -477,7 +491,7 @@ paths:
       parameters:
         - name: workspaceId
           in: path
-          description: "In paramater"
+          description: " "
           required: true
           schema:
             type: string
@@ -495,7 +509,7 @@ paths:
       parameters:
         - name: workspaceId
           in: path
-          description: "In parameter"
+          description: ""
           required: true
           schema:
             type: string
@@ -517,7 +531,7 @@ paths:
       parameters:
         - name: workspaceId
           in: path
-          description: In paramater
+          description: ""
           required: true
           schema:
             type: string
@@ -574,18 +588,35 @@ components:
               name:
                 type: string
                 example: Todos
+      required: true
     UpdateSectionOrder:
       content:
         application/json:
           schema:
             type: object
             properties:
-              firstSectionOrder:
-                type: number
-                example: 3
-              secondSectionOrder:
-                type: number
-                example: 8
+              firstSection:
+                type: object
+                required:
+                  - name
+                properties:
+                  id:
+                    type: string
+                    example: 877b4f45-3f89-4f8e-9da0-d1dad7c09a6e
+                  order:
+                    type: number
+                    example: 2
+              secondSection:
+                type: object
+                required:
+                  - name
+                properties:
+                  id:
+                    type: string
+                    example: 976b4f45-3f89-4f8e-9da0-d1dad7c09a6e
+                  order:
+                    type: number
+                    example: 4
       required: true
     Task:
       content:
@@ -607,9 +638,41 @@ components:
                 type: string
               assigneeId:
                 type: string
-              order:
-                type: number
-                example: 4
+              startDate:
+                type: string
+                example: "2023-09-28T12:00:00.000Z"
+              dueDate:
+                type: string
+                example: "2023-09-30T12:00:00.000Z"
+      required: true
+    UpdateTaskOrder:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              firstTask:
+                type: object
+                required:
+                  - name
+                properties:
+                  id:
+                    type: string
+                    example: 877b4f45-3f89-4f8e-9da0-d1dad7c09a6e
+                  order:
+                    type: number
+                    example: 2
+              secondTask:
+                type: object
+                required:
+                  - name
+                properties:
+                  id:
+                    type: string
+                    example: 976b4f45-3f89-4f8e-9da0-d1dad7c09a6e
+                  order:
+                    type: number
+                    example: 4
       required: true
     Client:
       content:
@@ -905,6 +968,12 @@ components:
         assigneeId:
           type: string
           example: 877b4f45-3f89-4f8e-9da0-d1dad7c09a6e
+        startDate:
+          type: string
+          example: "2023-09-28T12:00:00.000Z"
+        dueDate:
+          type: string
+          example: "2023-09-30T12:00:00.000Z"
         order:
           type: number
           example: 7

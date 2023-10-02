@@ -81,7 +81,8 @@ async function main() {
     update: {},
     create: {
       id: "cldcljamz0001gpsobc3inw3n",
-      name: "UI",
+      name: "Todos",
+      order: 0,
       project: {
         connect: {
           id: "cldclt74u9600gpecetnyigta",
@@ -96,6 +97,20 @@ async function main() {
             name: "Create navigation",
           },
         ],
+      },
+    },
+  });
+  await prisma.section.upsert({
+    where: { id: "gpsobc3inw3ncldcljamz4944" },
+    update: {},
+    create: {
+      id: "gpsobc3inw3ncldcljamz4944",
+      name: "Done",
+      order: 1,
+      project: {
+        connect: {
+          id: "cldclt74u9600gpecetnyigta",
+        },
       },
     },
   });

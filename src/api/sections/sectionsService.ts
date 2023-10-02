@@ -1,6 +1,6 @@
 // Here is where the business logic is
 import prisma from "../../lib/prisma/prismaClient";
-import { Section } from "./sectionsModel";
+import { Section, SectionWithOrder } from "./sectionsModel";
 
 // Create Section
 export async function createSectionService(
@@ -25,7 +25,7 @@ export async function createSectionService(
 
 // Find All Sections
 export async function findAllSectionsService(projectId: string) {
-  const Sections = await prisma.section.findMany({
+  const sections = await prisma.section.findMany({
     where: {
       projectId,
     },
@@ -34,5 +34,55 @@ export async function findAllSectionsService(projectId: string) {
     },
   });
 
-  return Sections;
+  return sections;
+}
+
+export async function updateTwoSectionsService(
+  firstSection: SectionWithOrder,
+  secondSection: SectionWithOrder
+) {
+  const updatedFirstSection = await prisma.section.update({
+    where: {
+      id: firstSection.id,
+    },
+    data: {
+      //! Use the other section's ORDER
+      order: secondSection.order,
+    },
+  });
+
+  const updatedSecondSection = await prisma.section.update({
+    where: {
+      id: secondSection.id,
+    },
+    data: {
+      //! Use the other section's ORDER
+      order: firstSection.order,
+    },
+  });
+
+  return { updatedFirstSection, updatedSecondSection };
+}
+
+export async function updateSectionService(id: string, sectionData: Section) {
+  const updatedSection = await prisma.section.update({
+    where: {
+      id,
+    },
+    data: {
+      name: sectionData.name,
+    },
+  });
+
+  return updatedSection;
+}
+
+export async function deleteSectionService(id: string) {
+  const deletedSection = await prisma.section.delete({
+    where: {
+      id,
+    },
+  });
+
+  return deletedSection;
 }
