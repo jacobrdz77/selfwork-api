@@ -2,7 +2,7 @@
 import prisma from "../../lib/prisma/prismaClient";
 import { Task, TaskWithOrder } from "./tasksModel";
 
-export async function createTaskService(taskData: Task) {
+export async function createTaskService(sectionId: string, taskData: Task) {
   const newTask = await prisma.task.create({
     data: {
       name: taskData.name,
@@ -10,7 +10,7 @@ export async function createTaskService(taskData: Task) {
       priority: taskData.priority === null ? "None" : taskData.priority,
       section: {
         connect: {
-          id: taskData.sectionId,
+          id: sectionId,
         },
       },
       order: taskData.order,
@@ -28,6 +28,26 @@ export async function findOneTaskService(id: string) {
   const task = await prisma.task.findUnique({
     where: {
       id,
+    },
+    include: {
+      assignee: {
+        select: {
+          id: true,
+          name: true,
+          email: true,
+        },
+      },
+      tags: true,
+    },
+  });
+
+  return task;
+}
+
+export async function findAllTasksService(sectionId: string) {
+  const task = await prisma.task.findMany({
+    where: {
+      sectionId,
     },
     include: {
       assignee: {

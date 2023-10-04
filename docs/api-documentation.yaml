@@ -143,7 +143,7 @@ paths:
         - projects
       summary: "Gets all sections from one project"
       description: "Gets sections using the projectId"
-      operationId: createSectionForProject
+      operationId: getAllProjectSections
       parameters:
         - name: projectId
           in: path

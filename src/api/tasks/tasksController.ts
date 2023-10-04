@@ -1,6 +1,8 @@
 import { NextFunction, Request, Response } from "express";
 import {
+  createTaskService,
   deleteTaskService,
+  findAllTasksService,
   findOneTaskService,
   updateTaskService,
   updateTwoTasksService,
@@ -13,8 +15,8 @@ async function createTask(
   next: NextFunction
 ) {
   try {
-    await updateTaskService(req.params.id, req.body);
-    return res.status(204).json({});
+    const task = await createTaskService(req.params.id, req.body);
+    return res.status(200).json(task);
   } catch (error) {
     next(error);
   }
@@ -28,6 +30,19 @@ async function findOneTask(
   try {
     const task = await findOneTaskService(req.params.id);
     return res.status(200).json(task);
+  } catch (error) {
+    next(error);
+  }
+}
+
+async function findAllTasks(
+  req: Request<{ id: string }, {}, Task>,
+  res: Response,
+  next: NextFunction
+) {
+  try {
+    const tasks = await findAllTasksService(req.params.id);
+    return res.status(200).json(tasks);
   } catch (error) {
     next(error);
   }
@@ -79,6 +94,7 @@ async function deleteTask(
 export default {
   updateTwoTasksOrder,
   findOneTask,
+  findAllTasks,
   createTask,
   updateTask,
   deleteTask,

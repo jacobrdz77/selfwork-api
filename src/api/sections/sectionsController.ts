@@ -40,7 +40,7 @@ async function updateTwoSectionsOrder(
   next: NextFunction
 ) {
   try {
-    const updatedSections = await updateTwoSectionsService(
+    await updateTwoSectionsService(
       req.body.firstSection,
       req.body.secondSection
     );

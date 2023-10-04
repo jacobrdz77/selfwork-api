@@ -37,4 +37,6 @@ router.post(
   tasksController.createTask
 );
 
+router.get("/:id/tasks", tasksController.findAllTasks);
+
 export default router;

@@ -10,17 +10,17 @@ export const TagValidator = z.object({
 export const UpdateTasksOrderValidator = z.object({
   firstTask: z.object({
     id: z.string(),
-    order: z.number(),
+    order: z.number().nonnegative(),
   }),
   secondTask: z.object({
     id: z.string(),
-    order: z.number(),
+    order: z.number().nonnegative(),
   }),
 });
 
 export const TaskValidator = z.object({
   name: z.string(),
-  sectionId: z.string(),
+  sectionId: z.string().optional(),
   description: z.string().nullish(),
   priority: z.enum(["None", "Low", "Medium", "High"]).default("None"),
   status: z.enum(["Open", "InProgress", "InReview", "Delayed"]).default("Open"),
