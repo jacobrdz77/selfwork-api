@@ -34,6 +34,8 @@ export const TaskValidator = z.object({
   // tags: z.array(TagValidator).optional(),
 });
 
+export const UpdateTaskValidator = TaskValidator.partial();
+
 export type UpdateTaskOrder = z.infer<typeof UpdateTasksOrderValidator>;
 export type TaskWithOrder = { id: string; order: number };
 export type Task = z.infer<typeof TaskValidator>;

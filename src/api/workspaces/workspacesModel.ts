@@ -8,4 +8,10 @@ export const WorkspaceValidator = z.object({
   // inviteLinks: z.array(z.object({})).optional(),
 });
 
+export const UpdateWorkspaceValidator = WorkspaceValidator.partial();
+
+export const WorkspaceQueryValidator = z.object({
+  workspaceId: z.string(),
+});
+
 export type Workspace = z.infer<typeof WorkspaceValidator>;

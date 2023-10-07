@@ -91,9 +91,11 @@ async function main() {
       tasks: {
         create: [
           {
+            id: "clnb6r4hc0000gpz8di290rkd",
             name: "Create blue button",
           },
           {
+            id: "clnb6r4hc0001gpz8deahrfzd",
             name: "Create navigation",
           },
         ],

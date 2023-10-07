@@ -1,6 +1,10 @@
 import express from "express";
 import { validateRequest } from "../../middlewares";
-import { TaskValidator, UpdateTasksOrderValidator } from "./tasksModel";
+import {
+  TaskValidator,
+  UpdateTaskValidator,
+  UpdateTasksOrderValidator,
+} from "./tasksModel";
 import tasksController from "./tasksController";
 
 const router = express.Router();
@@ -18,7 +22,7 @@ router.get("/:id", tasksController.findOneTask);
 router.put(
   "/:id",
   validateRequest({
-    body: TaskValidator,
+    body: UpdateTaskValidator,
   }),
   tasksController.updateTask
 );

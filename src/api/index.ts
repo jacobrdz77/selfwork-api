@@ -4,6 +4,7 @@ import MessageResponse from "../interfaces/MessageResponse";
 import projectRouter from "./projects/projectsRoutes";
 import sectionRouter from "./sections/sectionsRoutes";
 import taskRouter from "./tasks/tasksRoutes";
+import workspaceRouter from "./workspaces/workspacesRouter";
 
 const router = express.Router();
 
@@ -17,5 +18,6 @@ router.get("/", (req: Request, res: Response<MessageResponse>) => {
 router.use("/projects", projectRouter);
 router.use("/sections", sectionRouter);
 router.use("/tasks", taskRouter);
+router.use("/workspaces", workspaceRouter);
 
 export default router;

@@ -481,6 +481,28 @@ paths:
           description: Invalid input
         "200":
           $ref: "#/components/responses/Workspace"
+    get:
+      tags:
+        - workspaces
+      summary: Find all workspaces by ownerId
+      description: Using the ownerId from path to get all workspaces
+      operationId: getworkspaceByownerId
+      parameters:
+        - name: ownerId
+          in: query
+          description: ""
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Created workspace
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Workspace"
+        "404":
+          description: workspace not found
   /workspaces/{workspaceId}:
     get:
       tags:
