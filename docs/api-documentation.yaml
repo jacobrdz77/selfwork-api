@@ -197,27 +197,6 @@ paths:
           description: Invalid input
         "200":
           $ref: "#/components/responses/Sections"
-  /users/{userId}/clients:
-    get:
-      tags:
-        - users
-      summary: "Gets all clients from user"
-      description: "Gets clients using the userId"
-      operationId: getUserclients
-      parameters:
-        - name: userId
-          in: path
-          description: "In path"
-          required: true
-          schema:
-            type: string
-      responses:
-        "422":
-          description: Invalid input
-        "405":
-          description: Validation exception
-        "200":
-          $ref: "#/components/responses/Clients"
   /sections:
     put:
       tags:
@@ -404,6 +383,26 @@ paths:
           description: Invalid input
         "200":
           $ref: "#/components/responses/Client"
+    get:
+      tags:
+        - clients
+      summary: "Gets all clients by userId"
+      description: "Gets clients using the userId"
+      operationId: getUserclients
+      parameters:
+        - name: userId
+          in: query
+          description: "In query"
+          required: true
+          schema:
+            type: string
+      responses:
+        "422":
+          description: Invalid input
+        "405":
+          description: Validation exception
+        "200":
+          $ref: "#/components/responses/Clients"
   /clients/{clientId}:
     get:
       tags:

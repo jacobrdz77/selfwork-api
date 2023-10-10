@@ -1,26 +1,23 @@
 import z from "zod";
 
-const ContactValidator = z.object({
-  name: z.string(),
-  email: z.string(),
-  phoneNumber: z.string().nullish(),
-  jobTitle: z.string().nullish(),
-  clientId: z.string(),
-});
-
 export const ClientValidator = z.object({
-  name: z.string().min(2),
+  name: z.string(),
+  userId: z.string(),
   companyName: z.string().nullish(),
   phone: z.string().nullish(),
-  email: z.string().nullish(),
+  email: z.string().email().nullish(),
   businessAddress: z.string().nullish(),
-  userId: z.string(),
-  order: z.number().nonnegative(),
+  order: z.number().nonnegative().nullish(),
   status: z.enum(["Active", "Pending", "Closed"]).default("Pending"),
-  totalMonthly: z.number().nonnegative(),
-  totalLumpSum: z.number().nonnegative(),
+  totalMonthly: z.number().nonnegative().optional(),
+  totalLumpSum: z.number().nonnegative().optional(),
   // contacts: z.array(ContactValidator).nullish(),
   // projects: z.array(ProjectValidator).nullish(),
+});
+
+export const UpdateClientValidator = ClientValidator.partial();
+export const ClientQueryValidator = z.object({
+  userId: z.string(),
 });
 
 export type Client = z.infer<typeof ClientValidator>;
